@@ -79,9 +79,9 @@
 		var start = () => {
 
 
-			navigator.getUserMedia = navigator.getUserMedia ||
-				navigator.webkitGetUserMedia ||
-				navigator.mozGetUserMedia;
+			navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia ||
+				navigator.mediaDevices.webkitGetUserMedia ||
+				navigator.mediaDevices.mozGetUserMedia;
 
 			navigator.mediaDevices.getUserMedia({
 				video: {
