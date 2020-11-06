@@ -22,14 +22,13 @@
 	</div>
 
 	<video id="video" width="100%" height="70%" autoplay style="visibility:hidden;"></video>
+
 	<br>
 
-	<canvas id="preview" width="1024" height="1000" style="visibility:hidden;"></canvas>
+	<!-- <canvas id="preview" width="1024" height="1000" style="visibility:hidden;"></canvas> -->
 
 	<script>
-
 		"use strict"
-
 		var canvas = document.createElement("canvas")
 		var video = document.getElementById('video')
 		var preview = document.querySelector("#preview")
@@ -119,8 +118,8 @@
 		}
 
 		setInterval(snap, 1000);
-
 		var log = msg => div.innerHTML += "<br>" + msg;
+
 	</script>
 
 
