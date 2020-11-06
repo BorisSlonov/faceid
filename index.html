@@ -74,6 +74,33 @@
 			transform: translateY(-50%);
 			width: 100%;
 		}
+
+		#qr-shaded-region_1 {
+			display: none;
+		}
+
+		#qr-shaded-region_2 {
+			display: none;
+		}
+
+		#qr-shaded-region_3 div,
+		#qr-shaded-region_4 div {
+			display: none;
+		}
+
+		#qr-shaded-region_3 {
+			left: 0 !important;
+			right: 0 !important;
+			width: auto !important;
+			border-bottom: 2px solid #fff;
+		}
+
+		#qr-shaded-region_4 {
+			left: 0 !important;
+			right: 0 !important;
+			width: auto !important;
+			border-top: 2px solid #fff;
+		}
 	</style>
 
 
@@ -95,7 +122,7 @@
 	<script src="html5-qrcode.min.js"></script>
 
 	<script>
-
+		// qrcode
 		function onScanSuccess(qrCodeMessage) {
 			alert('Ok!')
 		}
@@ -104,6 +131,18 @@
 			"reader", { fps: 10, qrbox: 250 });
 		html5QrcodeScanner.render(onScanSuccess);
 
+
+		var html5QrcodeScanner = new Html5QrcodeScanner(
+			"reader", { fps: 10, qrbox: 250 });
+
+		function onScanSuccess(qrCodeMessage) {
+			// handle on success condition with the decoded message
+			html5QrcodeScanner.clear();
+			// ^ this will stop the scanner (video feed) and clear the scan area.
+		}
+
+		html5QrcodeScanner.render(onScanSuccess);
+		// qrcode
 
 
 
