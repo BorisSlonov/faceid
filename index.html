@@ -113,7 +113,12 @@
 	var localStream;
 
 	var start = () => {
-		navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1024 }, height: { ideal: 768 } } }).then(stream => {
+		navigator.mediaDevices.getUserMedia({ 
+			video: { 
+				width: { ideal: 1024 }, 
+				height: { ideal: 768 },
+				facingMode: { exact: "environment" }
+			} }).then(stream => {
 			localStream = stream;
 			snapping = true;
 			video.srcObject = stream;
