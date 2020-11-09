@@ -40,7 +40,18 @@
 		.video-wrap {
 			position: relative;
 			max-width: 550px;
+			max-height: 550px;
 			margin: 0 auto;
+		}
+
+		#preview {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
 		}
 
 		.video-wrap::before {
@@ -74,7 +85,7 @@
 	<div class="container">
 
 		<center>
-			<button onclick="start()" style="height:50px; width:200px;">Start!</button>
+			<button onclick="start();" style="height:50px; width:200px;">Start!</button>
 			<input id="number" type="text" style="height:50px; width:200px;  font-size:20px;">
 			<input id="series" type="text" style="height:50px; width:200px;  font-size:20px;">
 		</center>
@@ -84,12 +95,10 @@
 		</div>
 
 		<div class="video-wrap" style="visibility:hidden;">
-			<video id="video" width="100%" muted></video>
+			<video id="video" width="100%" autoplay controls muted></video>
+			<canvas id="preview"></canvas>
+
 		</div>
-
-
-		<br>
-		<canvas id="preview" width="1024" height="1000" style="visibility:hidden;"></canvas>
 
 	</div>
 
@@ -117,63 +126,62 @@
 				snapping = true;
 				video.srcObject = stream;
 				videoWrap.style.visibility = "visible";
-				video.play();
 			}).catch(log);
 		}
 
-		// var snap = () => {
-		// 	if (snapping) {
-		// 		canvas.width = video.videoWidth;
-		// 		canvas.height = video.videoHeight;
+		var snap = () => {
+			if (snapping) {
+				canvas.width = video.videoWidth;
+				canvas.height = video.videoHeight;
 
-		// 		canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-		// 		preview.getContext('2d').drawImage(canvas, 0, video.videoHeight / 5, video.videoWidth, video.videoHeight - video.videoHeight / 2, 0, video.videoHeight / 4, video.videoWidth, video.videoHeight - video.videoHeight / 2);
+				canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+				preview.getContext('2d').drawImage(canvas, 0, video.videoHeight / 5, video.videoWidth, video.videoHeight - video.videoHeight / 2, 0, video.videoHeight / 4, video.videoWidth, video.videoHeight - video.videoHeight / 2);
 
-		// 		let data = preview.toDataURL().split(',')[1];
+				let data = preview.toDataURL().split(',')[1];
 
-		// 		const dataToSend = JSON.stringify({ "image": data });
-		// 		let dataReceived = "";
-		// 		if (!loading) {
-		// 			loading = true;
+				const dataToSend = JSON.stringify({ "image": data });
+				let dataReceived = "";
+				if (!loading) {
+					loading = true;
 
-		// 			fetch("https://mrz-proxy.herokuapp.com/process", {
-		// 				method: "post",
-		// 				headers: { "Content-Type": "application/json" },
-		// 				body: dataToSend,
-		// 				rejectUnauthorized: false,
-		// 				requestCert: true,
-		// 				agent: false
-		// 			}).then(resp => {
-		// 				if (resp.status === 200) {
-		// 					return resp.json()
-		// 				} else {
-		// 					console.log("Status: " + resp.status)
-		// 					return Promise.reject("server")
-		// 				}
-		// 			}).then(dataJson => {
-		// 				if (!dataJson['error']) {
-		// 					//if (dataJson['valid_score'] > 5) 
-		// 					//document.getElementById("text").innerHTML = JSON.stringify(dataJson);
-		// 					snapping = false;
-		// 					video.style.visibility = "hidden";
-		// 					document.getElementById("number").value = dataJson['number'];
-		// 					document.getElementById("series").value = dataJson['personal_number'];
-		// 					localStream.getTracks().forEach((track) => {
-		// 						track.stop();
-		// 					});
-		// 				}
-		// 				loading = false;
-		// 			})
-		// 				.catch(err => {
-		// 					loading = false;
-		// 					if (err === "server") return
-		// 					console.log(err)
-		// 				})
-		// 		}
-		// 	}
-		// }
+					fetch("https://mrz-proxy.herokuapp.com/process", {
+						method: "post",
+						headers: { "Content-Type": "application/json" },
+						body: dataToSend,
+						rejectUnauthorized: false,
+						requestCert: true,
+						agent: false
+					}).then(resp => {
+						if (resp.status === 200) {
+							return resp.json()
+						} else {
+							console.log("Status: " + resp.status)
+							return Promise.reject("server")
+						}
+					}).then(dataJson => {
+						if (!dataJson['error']) {
+							//if (dataJson['valid_score'] > 5) 
+							//document.getElementById("text").innerHTML = JSON.stringify(dataJson);
+							snapping = false;
+							video.style.visibility = "hidden";
+							document.getElementById("number").value = dataJson['number'];
+							document.getElementById("series").value = dataJson['personal_number'];
+							localStream.getTracks().forEach((track) => {
+								track.stop();
+							});
+						}
+						loading = false;
+					})
+						.catch(err => {
+							loading = false;
+							if (err === "server") return
+							console.log(err)
+						})
+				}
+			}
+		}
 
-		// setInterval(snap, 1000);
+		setInterval(snap, 1000);
 
 		var log = msg => div.innerHTML += "<br>" + msg;
 	</script>
