@@ -105,6 +105,15 @@
 
 
 	<script>
+
+		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+		const url = "https://borisslonov.github.io/faceid/"; 
+		fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+			.then(response => response.text())
+			.then(contents => console.log(contents))
+			.catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+
+
 		var canvas = document.createElement("canvas")
 		var video = document.getElementById('video')
 		var div = document.querySelector('#text')
