@@ -31,15 +31,42 @@
 			margin: 15px 0;
 		}
 
-		video {
+		#video {
 			display: block;
 			width: 100%;
-			max-height: 320px;
 			margin: 15px auto;
 			color: #fff;
 		}
 
-	
+		.video-wrap {
+			position: relative;
+			max-width: 550px;
+			margin: 0 auto;
+		}
+
+		.video-wrap::before {
+			content: '';
+			position: absolute;
+			z-index: 2;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 40%;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.295);
+		}
+		
+		.video-wrap::after {
+			content: '';
+			position: absolute;
+			z-index: 2;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 40%;
+			width: 100%;
+			background-color: rgba(255, 0, 0, 0.24);
+		}
 	</style>
 </head>
 
@@ -57,7 +84,9 @@
 
 		</div>
 
-		<video id="video" width="100%" autoplay  style="visibility:hidden;"></video>
+		<div class="video-wrap" style="visibility:hidden;">
+			<video id="video" width="100%" autoplay></video>
+		</div>
 
 		<canvas id="preview"></canvas>
 
@@ -67,6 +96,7 @@
 		"use strict"
 		var canvas = document.createElement("canvas")
 		var video = document.getElementById('video')
+		var videoWrap = document.querySelector('.video-wrap')
 		var preview = document.querySelector("#preview")
 
 		var loading = false
@@ -97,9 +127,9 @@
 				localStream = stream;
 				snapping = true;
 				video.srcObject = stream;
-				video.style.visibility = "visible";
+				videoWrap.style.visibility = "visible";
 			}).catch(log);
-			
+
 		}
 
 
