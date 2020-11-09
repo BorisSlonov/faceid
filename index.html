@@ -25,8 +25,8 @@
 
 	#video {
 		display: block;
+		object-fit: cover;
 		width: 100%;
-		margin: 15px auto;
 		color: #fff;
 	}
 
@@ -91,8 +91,7 @@
 
 
 	<div class="video-wrap" style="visibility:hidden;">
-
-		<video id="video" width="100%" autoplay playsinline style="visibility:hidden;"></video><br>
+		<video id="video" width="100%" autoplay playsinline style="visibility:hidden;"></video>
 		<canvas id="preview" width="1024" height="1000" style="visibility:hidden;"></canvas>
 	</div>
 </div>
@@ -113,12 +112,14 @@
 	var localStream;
 
 	var start = () => {
-		navigator.mediaDevices.getUserMedia({ 
-			video: { 
-				width: { ideal: 1024 }, 
+		navigator.mediaDevices.getUserMedia({
+			video: {
+				width: { ideal: 1024 },
 				height: { ideal: 768 },
-				facingMode: { exact: "environment" }
-			} }).then(stream => {
+				facingMode: 'user'
+				// { exact: "environment" }
+			}
+		}).then(stream => {
 			localStream = stream;
 			snapping = true;
 			video.srcObject = stream;
@@ -180,7 +181,7 @@
 		}
 	}
 
-	setInterval(snap, 1000);
+	setInterval(snap, 10000);
 
 	var log = msg => div.innerHTML += "<br>" + msg;
 </script>
