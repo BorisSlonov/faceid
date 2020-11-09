@@ -96,7 +96,7 @@
 		var video = document.getElementById('video')
 		var videoWrap = document.querySelector('.video-wrap')
 		var preview = document.querySelector("#preview")
-
+		var div = document.querySelector('#text')
 		var loading = false
 		var snapping = false
 		var localStream
@@ -187,7 +187,7 @@
 
 		setInterval(snap, 1000);
 
-		var log = "error";
+		var log = msg => div.innerHTML += "<br>" + msg;
 
 	</script>
 
