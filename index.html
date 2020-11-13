@@ -161,13 +161,13 @@
 				preview.getContext('2d').drawImage(canvas, 0, video.videoHeight / 5, video.videoWidth, video.videoHeight - video.videoHeight / 2, 0, video.videoHeight / 4, video.videoWidth, video.videoHeight - video.videoHeight / 2);
 
 				let data = preview.toDataURL().split(',')[1];
-
+				// https://mrz-proxy.herokuapp.com/process
 				const dataToSend = JSON.stringify({ "image": data });
 				let dataReceived = "";
 				if (!loading) {
 					loading = true;
-
-					fetch("https://mrz-proxy.herokuapp.com/process", {
+					
+					fetch("https://webscan.xalqnazorati.uz/process", {
 						method: "post",
 						headers: { "Content-Type": "application/json" },
 						body: dataToSend,
