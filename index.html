@@ -155,7 +155,7 @@
 		var snap = () => {
 			if (snapping) {
 				canvas.width = video.videoWidth;
-				canvas.height = video.videoHeight;
+				canvas.height = '10%';
 
 				canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 				preview.getContext('2d').drawImage(canvas, 0, video.videoHeight / 5, video.videoWidth, video.videoHeight - video.videoHeight / 2, 0, video.videoHeight / 4, video.videoWidth, video.videoHeight - video.videoHeight / 2);
